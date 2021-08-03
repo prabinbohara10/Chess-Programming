@@ -22,7 +22,7 @@
 		   //mouse pressed event start:
 		   if(event1.type==Event::MouseButtonPressed && event1.mouseButton.button==Mouse::Left)
 		   {
-			  
+			
             
 			//getting x and y when mouse is clicked:
 			int x = Mouse::getPosition(window).x;
@@ -38,8 +38,7 @@
 				clicked_piece = game_array[row_no][col_no];
 
 
-			int need_to_show_possible_moves=1;// 1 to show possible moves form the clicked position:
-											   // 0 is not to show possible moves from clicked postion:
+			
 
 			//if move is successful:
 			int move_flag= movement1.is_move_success(window,square,game_array,current_possible,current_side_to_play,row_no, col_no);
@@ -49,6 +48,7 @@
 				window.display();
 			 return;
 			}
+			
 			//checking of white moves in white turn and black moves in black turn:	
 			if((current_side_to_play==0 && clicked_piece>=0) || (current_side_to_play==1 && clicked_piece<=0))
 			{
@@ -114,11 +114,23 @@
 				// placing pieces to the board. making baseboard is already done before.
 				//Why making baseboard function is above?
 				//just to draw different colours to the squares of possible moves:
+					if(b_check==true)
+					{
+					square[b_row][b_col].setFillColor(Color::Red);
+					window.draw(square[b_row][b_col]);
+					}
+					else if(w_check==true)
+					{
+		 			square[w_row][w_col].setFillColor(Color::Red);
+		 			window.draw(square[w_row][w_col]);
+					}
+					else{}
+
 				c1.set_piece_to_board(window, game_array,square, tex, sp);
 				p1.promotion(window, game_array, square, row_no, col_no, clicked_piece,current_possible,current_side_to_play);
 				gamesidescreen(window, mouse_pos_x,mouse_pos_y);
 
-			window.display();
+			    window.display();
 			//else part of "if clicked is on same square:"
 			}//end of if (checking if white moves in white turn and black in black turn)
 

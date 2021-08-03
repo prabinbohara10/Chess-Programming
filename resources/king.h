@@ -7,6 +7,8 @@
 #include "piece.h"
 using namespace std;
 using namespace sf;
+
+
 class king
 {
 	vector <pair<int,int>> step_direction={

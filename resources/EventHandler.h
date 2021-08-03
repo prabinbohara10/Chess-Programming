@@ -22,6 +22,11 @@ using namespace sf;
 extern int mouse_pos_x;
 extern int mouse_pos_y;
 
+extern	bool w_check;
+extern  bool b_check;
+
+extern int b_row,b_col,w_row,w_col;
+
 class EventHandler
 {
 	int current_side_to_play=0;//0 for white and 1 for black:
