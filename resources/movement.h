@@ -34,6 +34,9 @@ class movement
 		{2,1},{2,-1},
 		{1,-2},{-1,-2}
 	    };
+
+        vector <pair<int,int>> checked_path;
+
         Texture tex;
         Sprite sp;
         chessboard c1;
@@ -48,4 +51,5 @@ class movement
         void possible_en_passant(int(&game_array)[8][8],vector<vector<int>> &current_possible,int moved_index);
         int find_check(int(&game_array)[8][8],RenderWindow (&window),RectangleShape (&square)[8][8],
           int &current_side);
+          void is_checkmate(int(&game_array1)[8][8],int a,int b,int k_row, int k_col, int king_c);
 };

@@ -304,6 +304,7 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 						if(game_array1[new_row][new_col]==1){
 							if((a==-1 && b==0) || (a==0 && b==-1) || (a==0 && b==1) || (a==1 && b==0)){
 								b_check=true;
+								is_checkmate(game_array1,a,b,b_row,b_col,king_no);
 							}
 						}//ending of rook
 
@@ -311,6 +312,7 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 						if(game_array1[new_row][new_col]==3){
 							if((a==-1 && b==-1) || (a==-1 && b==1) || (a==1 && b==-1) || (a==1 && b==1)){
 								b_check=true;
+								is_checkmate(game_array1,a,b,b_row,b_col,king_no);
 							}
 						}    //ending of bishop
 
@@ -319,6 +321,7 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 							if((a==-1 && b==0) || (a==0 && b==-1) || (a==0 && b==1) || (a==1 && b==0) ||
 							    (a==-1 && b==-1) || (a==-1 && b==1) || (a==1 && b==-1) || (a==1 && b==1)){
 								b_check=true;
+								is_checkmate(game_array1,a,b,b_row,b_col,king_no);
 							}
 						}//ending of queen
 
@@ -327,6 +330,7 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 							if((a==-2 && b==-1) || (a==-2 && b==1) || (a==-1 && b==2) || (a==1 && b==2) ||
 							    (a==2 && b==1) || (a==2 && b==-1) || (a==1 && b==-2) || (a==-1 && b==2)){
 								b_check=true;
+								is_checkmate(game_array1,a,b,b_row,b_col,king_no);
 								
 							}
 						}//ending of knight
@@ -335,6 +339,7 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 						if(game_array1[new_row][new_col]==6){
 							if((new_row==b_row+1 && new_col==b_col-1) ||(new_row==b_row+1 && new_col==b_col+1)){
 								b_check=true;
+								//is_checkmate(game_array1,a,b,b_row,b_col,king_no);
 							}
 						}//ending of pawn 
 
@@ -377,6 +382,7 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 						if(game_array1[new_row][new_col]==-1){
 							if((a==-1 && b==0) || (a==0 && b==-1) || (a==0 && b==1) || (a==1 && b==0)){
 								w_check=true;
+								is_checkmate(game_array1,a,b,w_row,w_col,king_no);
 							}
 						}   //ending of rook
 
@@ -384,6 +390,7 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 						if(game_array1[new_row][new_col]==-3){
 							if((a==-1 && b==-1) || (a==-1 && b==1) || (a==1 && b==-1) || (a==1 && b==1)){
 								w_check=true;
+								is_checkmate(game_array1,a,b,w_row,w_col,king_no);
 							}
 						}    //ending of bishop
 
@@ -392,6 +399,7 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 							if((a==-1 && b==0) || (a==0 && b==-1) || (a==0 && b==1) || (a==1 && b==0) ||
 							    (a==-1 && b==-1) || (a==-1 && b==1) || (a==1 && b==-1) || (a==1 && b==1)){
 								w_check=true;
+								is_checkmate(game_array1,a,b,w_row,w_col,king_no);
 							}
 						}//ending of queen
 
@@ -400,6 +408,7 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 							if((a==-2 && b==-1) || (a==-2 && b==1) || (a==-1 && b==2) || (a==1 && b==2) ||
 							    (a==2 && b==1) || (a==2 && b==-1) || (a==1 && b==-2) || (a==-1 && b==2)){
 								w_check=true;
+								is_checkmate(game_array1,a,b,w_row,w_col,king_no);
 								
 							}
 						}//ending of knight
@@ -409,6 +418,7 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 						if(game_array1[new_row][new_col]==-6){
 							if( (new_row==w_row-1 && new_col==w_col-1) ||(new_row==w_row-1 && new_col==w_col+1)){
 								w_check=true;
+								//is_checkmate(game_array1,a,b,w_row,w_col,king_no);
 							}
 						}//ending of pawn
 					
@@ -467,3 +477,363 @@ cout<<"never here:";
 	
 
 }  //ending of this function 
+
+void movement :: is_checkmate(int(&game_array1)[8][8],int a,int b,int k_row, int k_col,int king_c){
+	int aa=a;
+	int bb=b;
+	int qq=0;
+	
+	while(true){     //storing the values through which check is made
+                             //((k_row+a)>=0)&& ((k_col+b)>=0) && ((k_row+a)<=7) && ((k_col+b)<=7)
+		if(game_array1[k_row+a][k_col+b]==0){
+			checked_path.push_back(make_pair((k_row+a),(k_col+b)));
+			cout<<(k_row+a)<<(k_col+b)<<endl;
+		}
+		if((king_c==5 && game_array1[k_row+a][k_col+b]<0) || (king_c==-5 && game_array1[k_row+a][k_col+b]>0)){
+			aa=k_row+a;
+			bb=k_col+b;
+			break;
+		}
+		if((a==-2 && b==-1) || (a==-2 && b==1) || (a==-1 && b==2) || (a==1 && b==2) ||
+			(a==2 && b==1) || (a==2 && b==-1) || (a==1 && b==-2) || (a==-1 && b==2)){
+			break;					
+		}
+		a=a+aa;
+		b=b+bb;
+	}// end of while loop
+
+	
+	for(int i=0;i<8;i++){
+		for(int j=0;j<8;j++){
+			
+			//if the piece is queen and matches with the check king
+			 if((king_c==5 && game_array1[i][j]==4) || (king_c==-5 && game_array1[i][j]==-4))
+			 {
+				 if(qq==1){
+						break;
+					}
+				//start of white queen or black queen
+				vector <pair<int,int>> slide_direction={ 
+		                {-1,-1},{-1,0},{-1,1},
+		                {0,-1},    {0,1},
+		                {1,-1},{1,0},{1,1}
+	                     };
+			 			 
+				for(pair<int,int> slide_dir: slide_direction)
+		        {
+			       int new_row= i+ slide_dir.first;
+			       int new_col= j+ slide_dir.second;
+			       while( (new_row>=0)&& (new_col>=0) && (new_row<=7) && (new_col<=7) )
+			       {
+					   if(game_array1[new_row][new_col]==0) //finds empty square
+				        {
+							for(int m=0;m<checked_path.size();m++)
+				            {
+								//cout<<checked_path[m].first<<new_row<<" ";
+								//cout<<checked_path[m].second<<new_col<<endl;
+					           if((checked_path[m].first==new_row) && (checked_path[m].second==new_col)){
+						          cout<<"no checkmate queen ";
+						   			qq=1;
+				                } 
+					            
+							}
+							
+					    }
+						else if((king_c==5 && game_array1[new_row][new_col]<0) || 
+						(king_c==-5 && game_array1[new_row][new_col]>0)) //arko jat vetyo
+				        {
+							if((new_row==aa) && (new_col==bb)){
+								cout<<"eat queen";
+								qq=1;
+							}
+						  break;
+						}
+				        else if((king_c==5 && game_array1[new_row][new_col]>0) || 
+						(king_c==-5 && game_array1[new_row][new_col]<0)) //afnai jat vetyo 
+				        {
+					     break;
+				        }  		
+						
+				         new_row+=slide_dir.first;
+				         new_col+=slide_dir.second;
+			        }//end of while loop:
+					if(qq==1){
+					    break;
+					}
+		        }
+			 
+			 }// ending of our queen
+			 else if((king_c==5 && game_array1[i][j]==1) || (king_c==-5 && game_array1[i][j]==-1))
+			 {
+				 if(qq==1){
+						break;
+					}
+				//if the piece is rook and matches with the check king
+				vector <pair<int,int>> slide_direction={
+		        {0,-1},{-1,0},
+		        {0,1},{1,0}
+	            };
+			 			 
+				for(pair<int,int> slide_dir: slide_direction)
+		        {
+			       int new_row= i+ slide_dir.first;
+			       int new_col= j+ slide_dir.second;
+			       while( (new_row>=0)&& (new_col>=0) && (new_row<=7) && (new_col<=7) )
+			       {
+					   if(game_array1[new_row][new_col]==0) //finds empty square
+				        {
+							for(int m=0;m<checked_path.size();m++)
+				            {
+								//cout<<checked_path[m].first<<new_row<<" ";
+								//cout<<checked_path[m].second<<new_col<<endl;
+					           if((checked_path[m].first==new_row) && (checked_path[m].second==new_col)){
+						          cout<<"no checkmate rook";
+						   			qq=1;
+				                } 
+					            
+							}
+							
+					    }
+						else if((king_c==5 && game_array1[new_row][new_col]<0) || 
+						(king_c==-5 && game_array1[new_row][new_col]>0)) //arko jat vetyo
+				        {
+							if((new_row==aa) && (new_col==bb)){
+								cout<<"eat rook";
+								qq=1;
+							}
+						  break;
+						}
+				        else if((king_c==5 && game_array1[new_row][new_col]>0) || 
+						(king_c==-5 && game_array1[new_row][new_col]<0)) //afnai jat vetyo 
+				        {
+					     break;
+				        }  		
+						
+				         new_row+=slide_dir.first;
+				         new_col+=slide_dir.second;
+			        }//end of while loop:
+					
+					if(qq==1){
+					    break;
+					}
+		        }
+			 
+			 }// ending of rook
+			 else if((king_c==5 && game_array1[i][j]==3) || (king_c==-5 && game_array1[i][j]==-3))
+			 {
+				 if(qq==1){
+						break;
+					}
+				//if the piece is bishop and matches with the check king
+				vector <pair<int,int>> slide_direction={
+		           {-1,-1},{-1,1},
+		           {1,-1},{1,1}
+		        };  
+			 			 
+				for(pair<int,int> slide_dir: slide_direction)
+		        {
+			       int new_row= i+ slide_dir.first;
+			       int new_col= j+ slide_dir.second;
+			       while( (new_row>=0)&& (new_col>=0) && (new_row<=7) && (new_col<=7) )
+			       {
+					   if(game_array1[new_row][new_col]==0) //finds empty square
+				        {
+							for(int m=0;m<checked_path.size();m++)
+				            {
+								//cout<<checked_path[m].first<<new_row<<" ";
+								//cout<<checked_path[m].second<<new_col<<endl;
+					           if((checked_path[m].first==new_row) && (checked_path[m].second==new_col)){
+						          cout<<"no checkmate bishop";
+						   			qq=1;
+				                } 
+					            
+							}
+							
+					    }
+						else if((king_c==5 && game_array1[new_row][new_col]<0) || 
+						(king_c==-5 && game_array1[new_row][new_col]>0)) //arko jat vetyo
+				        {
+							if((new_row==aa) && (new_col==bb)){
+								cout<<"eat bishop";
+								qq=1;
+							}
+						  break;
+						}
+				        else if((king_c==5 && game_array1[new_row][new_col]>0) || 
+						(king_c==-5 && game_array1[new_row][new_col]<0)) //afnai jat vetyo 
+				        {
+					     break;
+				        }  		
+						
+				         new_row+=slide_dir.first;
+				         new_col+=slide_dir.second;
+			        }//end of while loop:
+					
+					if(qq==1){
+					    break;
+					}
+		        }
+			 
+			 }// ending of bishop
+			 else if((king_c==5 && game_array1[i][j]==2) || (king_c==-5 && game_array1[i][j]==-2))
+			 {
+				 if(qq==1){
+						break;
+					}
+				//if the piece is knight and matches with the check king
+				vector <pair<int,int>> slide_direction={
+		            {-2,-1},{-2,1},
+		           {-1,2},{1,2},
+		          {2,1},{2,-1},
+		          {1,-2},{-1,-2}
+	            };
+			 			 
+				for(pair<int,int> slide_dir: slide_direction)
+		        {
+			       int new_row= i+ slide_dir.first;
+			       int new_col= j+ slide_dir.second;
+			       while( (new_row>=0)&& (new_col>=0) && (new_row<=7) && (new_col<=7) )
+			       {
+					   if(game_array1[new_row][new_col]==0) //finds empty square
+				        {
+							for(int m=0;m<checked_path.size();m++)
+				            {
+					           if((checked_path[m].first==new_row) && (checked_path[m].second==new_col)){
+						          cout<<"no checkmate knight";
+						   			qq=1;
+				                } 
+					            
+							}
+							
+					    }
+						else if((king_c==5 && game_array1[new_row][new_col]<0) || 
+						(king_c==-5 && game_array1[new_row][new_col]>0)) //arko jat ko goti vetyo
+				        {
+							if((new_row==aa) && (new_col==bb)){
+								cout<<"eat knight";
+								qq=1;
+							}
+						  
+						}
+				        break;
+			        }//end of while loop:
+					
+					if(qq==1){
+					    break;
+					}
+		        }
+			 
+			 }// ending of knight
+			 //if the piece is pawn and matches with the check king
+			 else if((king_c==5 && game_array1[i][j]==6) || (king_c==-5 && game_array1[i][j]==-6))
+			 {
+				 if(qq==1){
+						break;
+					}
+				if (game_array1[i][j] == 6) //if white pawn:
+	            {
+		            if (i == 6) //if white pawn is in second rank:
+		            {
+			           for (int n = 1;n< 3;n++)
+			            {
+				            if (game_array1[i- n][j] == 0) {
+								for(int m=0;m<checked_path.size();m++){
+					                if((checked_path[m].first==(i-n)) && (checked_path[m].second==j)){
+						             cout<<"no checkmate pawn";
+						   			 qq=1;
+				                    }
+								} 
+				            }
+							else {
+								break;
+							}
+			            }
+		            }
+		            else {
+			           if (game_array1[i - 1][j] == 0){
+						   for(int m=0;m<checked_path.size();m++){
+						        if( (checked_path[m].first== (i-1) )  && (checked_path[m].second==j) ){
+						          cout<<"no checkmate pawn";
+						   			qq=1;
+				                }
+						   }
+					   }
+		            }
+					if(qq==1){
+						break;
+					}
+					
+					//eating possibility
+					if (game_array1[i - 1][j - 1] < 0 || game_array1[i - 1][j + 1] < 0){
+						if(( (i-1)==aa) && ( (j-1)==bb) || ( (i-1)==aa) && ( (j+1)==bb)){
+							cout<<"eat pawn";
+							qq=1;
+						}
+					}
+				}
+				//black
+				else if (game_array1[i][j] == -6) //if black pawn:
+	            {
+					if(qq==1){
+						break;
+					}
+		            if (i == 1) //if black pawn is in second rank:
+		            {
+			           for (int n = 1;n< 3;n++)
+			            {
+				            if (game_array1[i-+n][j] == 0) {
+								for(int m=0;m<checked_path.size();m++){
+					                if((checked_path[m].first==(i+n)) && (checked_path[m].second==j)){
+						             cout<<"no checkmate pawn";
+						   			 qq=1;
+				                    }
+								} 
+				            }
+							else {
+								break;
+							}
+			            }
+		            }
+		            else {
+			           if (game_array1[i + 1][j] == 0){
+						   for(int m=0;m<checked_path.size();m++){
+						        if( (checked_path[m].first== (i+1) )  && (checked_path[m].second==j) ){
+						          cout<<"no checkmate pawn";
+						   			qq=1;
+				                }
+						   }
+					   }
+		            }
+					if(qq==1){
+						break;
+					}
+					
+					//eating possibility
+					if (game_array1[i + 1][j - 1] > 0 || game_array1[i + 1][j + 1] > 0){
+						if(( (i+1)==aa) && ( (j-1)==bb) || ( (i+1)==aa) && ( (j+1)==bb)){
+							cout<<"eat pawn";
+							qq=1;
+						}
+					}
+				}
+				
+			}// ending of pawn   
+
+
+			 if(qq==1)
+			 {
+				break;
+			 }
+		}//ending of 1st for loop
+		    if(qq==1)
+			{
+			    break;
+			}
+	}// ending of 2nd for loop
+	if(qq!=1){
+		cout<<"its a checkmate bitchhh..!!!";
+	}
+
+	
+
+}
