@@ -4,6 +4,8 @@ bool w_check=false;
 bool b_check=false;
 
 int b_row=-1,b_col=-1,w_row=-1,w_col=-1;
+int assume =0;
+int assume1=0;
 
 void movement::king_position(int (&game_array1)[8][8],int (&king_pos)[2][2])
 {
@@ -259,8 +261,164 @@ void movement::possible_en_passant(int(&game_array)[8][8],vector<vector<int>> &c
 	}
 }
 
+//function related to finding check black part
+void movement :: find_check_bking(int(&game_array1)[8][8], int row1, int col1){
+	
+		//loop for checking if the black king is checked
+		int king_no = -5;
+		int a,b;
+		for(pair<int,int> king_dir: king_direction)
+		{
+			int new_row= row1 + king_dir.first;
+			int new_col= col1+ king_dir.second;
+			a= king_dir.first; b=king_dir.second;
+			while( (new_row>=0)&& (new_col>=0) && (new_row<=7) && (new_col<=7) )
+			{
+
+				 if(game_array1[new_row][new_col]>0) //finds white piece
+				{
+
+					//for rook
+						if(game_array1[new_row][new_col]==1){
+							if((a==-1 && b==0) || (a==0 && b==-1) || (a==0 && b==1) || (a==1 && b==0)){
+								assume=1;
+							}
+						}//ending of rook
+
+						//for bishop
+						if(game_array1[new_row][new_col]==3){
+							if((a==-1 && b==-1) || (a==-1 && b==1) || (a==1 && b==-1) || (a==1 && b==1)){
+								assume=1;
+							}
+						}    //ending of bishop
+
+						//for queen
+						if(game_array1[new_row][new_col]==4){
+							if((a==-1 && b==0) || (a==0 && b==-1) || (a==0 && b==1) || (a==1 && b==0) ||
+							    (a==-1 && b==-1) || (a==-1 && b==1) || (a==1 && b==-1) || (a==1 && b==1)){
+								assume=1;
+							}
+						}//ending of queen
+
+						//for knight
+						if(game_array1[new_row][new_col]==2){
+							if((a==-2 && b==-1) || (a==-2 && b==1) || (a==-1 && b==2) || (a==1 && b==2) ||
+							    (a==2 && b==1) || (a==2 && b==-1) || (a==1 && b==-2) || (a==-1 && b==2)){
+								assume=1;
+								
+							}
+						}//ending of knight
+
+						//for pawn
+						if(game_array1[new_row][new_col]==6){
+							if((new_row==row1+1 && new_col==col1-1) ||(new_row==row1+1 && new_col==col1+1)){
+								assume=1;
+							}
+						}//ending of pawn 
 
 
+					
+					break;
+
+				}
+				//aafnai goti raicha vney break vara new pair liney
+				if(game_array1[new_row][new_col]<0)
+				{break;}
+
+				if((a==-2 && b==-1) || (a==-2 && b==1) || (a==-1 && b==2) || (a==1 && b==2) ||
+							    (a==2 && b==1) || (a==2 && b==-1) || (a==1 && b==-2) || (a==-1 && b==2)){
+								
+								break;
+							}
+
+
+				new_row+=king_dir.first;
+				new_col+=king_dir.second;
+			}//end of while loop:
+		}   //end for black king check checking
+		
+}//end of the function
+
+//function related to finding check white part
+void movement :: find_check_wking(int(&game_array1)[8][8], int row1, int col1){
+	//at 2nd lets take white king
+		//loop for checking if the white king is checked
+		int king_no = 5;
+		int a,b;
+		for(pair<int,int> king_dir: king_direction)
+		{
+			int new_row= row1 + king_dir.first;
+			int new_col= col1+ king_dir.second;
+			a= king_dir.first; b=king_dir.second;
+			while( (new_row>=0)&& (new_col>=0) && (new_row<=7) && (new_col<=7) )
+			{
+
+
+				 if(game_array1[new_row][new_col]<0) //finds black piece 
+				{
+					
+						//rook
+						if(game_array1[new_row][new_col]==-1){
+							if((a==-1 && b==0) || (a==0 && b==-1) || (a==0 && b==1) || (a==1 && b==0)){
+							
+								assume=1;
+							}
+						}   //ending of rook
+
+						//bishop
+						if(game_array1[new_row][new_col]==-3){
+							if((a==-1 && b==-1) || (a==-1 && b==1) || (a==1 && b==-1) || (a==1 && b==1)){
+								assume=1;
+							}
+						}    //ending of bishop
+
+						//for queen
+						if(game_array1[new_row][new_col]==-4){
+							if((a==-1 && b==0) || (a==0 && b==-1) || (a==0 && b==1) || (a==1 && b==0) ||
+							    (a==-1 && b==-1) || (a==-1 && b==1) || (a==1 && b==-1) || (a==1 && b==1)){
+								assume=1;
+							}
+						}//ending of queen
+
+						//for knight
+						if(game_array1[new_row][new_col]==-2){
+							if((a==-2 && b==-1) || (a==-2 && b==1) || (a==-1 && b==2) || (a==1 && b==2) ||
+							    (a==2 && b==1) || (a==2 && b==-1) || (a==1 && b==-2) || (a==-1 && b==2)){
+								assume=1;
+								
+								
+							}
+						}//ending of knight
+
+						
+						//for pawn
+						if(game_array1[new_row][new_col]==-6){
+							if( (new_row==w_row-1 && new_col==w_col-1) ||(new_row==w_row-1 && new_col==w_col+1)){
+								assume=1;
+							}
+						}//ending of pawn
+					
+					break;
+				}
+
+				//aafnai goti raicha vney break vara new pair liney
+				if(game_array1[new_row][new_col]>0){
+					break;}
+				if((a==-2 && b==-1) || (a==-2 && b==1) || (a==-1 && b==2) || (a==1 && b==2) ||
+							    (a==2 && b==1) || (a==2 && b==-1) || (a==1 && b==-2) || (a==-1 && b==2)){
+									break;
+								
+							}
+
+
+				new_row+=king_dir.first;
+				new_col+=king_dir.second;
+			}//end of while loop:
+
+
+		}//end for white king check checking
+		
+}//end of function
 
 
 int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),RectangleShape (&square)[8][8],
@@ -337,9 +495,12 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 
 						//for pawn
 						if(game_array1[new_row][new_col]==6){
-							if((new_row==b_row+1 && new_col==b_col-1) ||(new_row==b_row+1 && new_col==b_col+1)){
+							if( new_row==b_row+1 && new_col==b_col-1 ){
 								b_check=true;
-								//is_checkmate(game_array1,a,b,b_row,b_col,king_no);
+								is_checkmate(game_array1,1,-1,b_row,b_col,king_no);
+							}else if(new_row==b_row+1 && new_col==b_col+1){
+								b_check=true;
+								is_checkmate(game_array1,1,1,b_row,b_col,king_no);
 							}
 						}//ending of pawn 
 
@@ -416,9 +577,12 @@ int movement :: find_check(int(&game_array1)[8][8],RenderWindow (&window),Rectan
 						
 						//for pawn
 						if(game_array1[new_row][new_col]==-6){
-							if( (new_row==w_row-1 && new_col==w_col-1) ||(new_row==w_row-1 && new_col==w_col+1)){
+							if( (new_row==w_row-1 && new_col==w_col-1)){
 								w_check=true;
-								//is_checkmate(game_array1,a,b,w_row,w_col,king_no);
+								is_checkmate(game_array1,-1,-1,w_row,w_col,king_no);
+							}else if( new_row==w_row-1 && new_col==w_col+1){
+								w_check=true;
+								is_checkmate(game_array1,-1,1,w_row,w_col,king_no);
 							}
 						}//ending of pawn
 					
@@ -482,6 +646,7 @@ void movement :: is_checkmate(int(&game_array1)[8][8],int a,int b,int k_row, int
 	int aa=a;
 	int bb=b;
 	int qq=0;
+	assume=1;
 	
 	while(true){     //storing the values through which check is made
                              //((k_row+a)>=0)&& ((k_col+b)>=0) && ((k_row+a)<=7) && ((k_col+b)<=7)
@@ -505,6 +670,118 @@ void movement :: is_checkmate(int(&game_array1)[8][8],int a,int b,int k_row, int
 	
 	for(int i=0;i<8;i++){
 		for(int j=0;j<8;j++){
+
+			if(game_array1[i][j]==king_c){
+				
+			if(king_c==5){
+				find_check_wking(game_array1,i-1,j-1);     //left top
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_wking(game_array1,i-1,j);    //top
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_wking(game_array1,i-1,j+1);    //right top
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_wking(game_array1,i,j-1);   //left
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				
+				find_check_wking(game_array1,i,j+1);    //right
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_wking(game_array1,i+1,j-1);   //left down
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_wking(game_array1,i+1,j);     //down
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_wking(game_array1,i+1,j+1);   //right down
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				
+				
+			}else{
+				find_check_bking(game_array1,i-1,j-1);     //left top
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_bking(game_array1,i-1,j);    //top
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_bking(game_array1,i-1,j+1);    //right top
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_bking(game_array1,i,j-1);   //left
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				
+				find_check_bking(game_array1,i,j+1);    //right
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_bking(game_array1,i+1,j-1);   //left down
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_bking(game_array1,i+1,j);     //down
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}
+				find_check_bking(game_array1,i+1,j+1);   //right down
+				if(assume!=1){
+					cout<<"no checkmate king";
+					qq=1;
+					break;
+				}	
+			}
+			}
+			assume=0;
+			if(qq==1){
+				
+				break;
+			}
 			
 			//if the piece is queen and matches with the check king
 			 if((king_c==5 && game_array1[i][j]==4) || (king_c==-5 && game_array1[i][j]==-4))
@@ -833,7 +1110,5 @@ void movement :: is_checkmate(int(&game_array1)[8][8],int a,int b,int k_row, int
 	if(qq!=1){
 		cout<<"its a checkmate bitchhh..!!!";
 	}
-
-	
-
+assume=0;
 }

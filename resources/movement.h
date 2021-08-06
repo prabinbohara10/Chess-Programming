@@ -20,6 +20,7 @@ extern	bool w_check;
 extern  bool b_check;
 
 extern int b_row,b_col,w_row,w_col;
+extern int assume;
 class movement
 {
     private:
@@ -49,6 +50,8 @@ class movement
         vector<vector<int>> &current_possible,int &current_side, int current_row,int current_col);
 
         void possible_en_passant(int(&game_array)[8][8],vector<vector<int>> &current_possible,int moved_index);
+        void find_check_bking(int(&game_array1)[8][8], int row, int col);
+        void find_check_wking(int(&game_array1)[8][8],int row, int col);
         int find_check(int(&game_array)[8][8],RenderWindow (&window),RectangleShape (&square)[8][8],
           int &current_side);
           void is_checkmate(int(&game_array1)[8][8],int a,int b,int k_row, int k_col, int king_c);
