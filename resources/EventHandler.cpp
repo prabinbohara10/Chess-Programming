@@ -1,10 +1,20 @@
 #include"EventHandler.h"
+
+int ps = -1;
+int S = 0;
+int M = 10;
+int H = 0;
+
 //passing game window, game_array and base squares:
    void EventHandler:: event_function(RenderWindow &window,int (&game_array)[8][8],RectangleShape (&square)[8][8])
    {
 	   
 	   //checking special cases i.e. special movements:
 			// 1)castling  2)En passant 3)Check  4)Checkmate  5)
+
+	
+	//stestback.setPosition(600 / 2 - sback1.getGlobalBounds().width/2-20, 280);
+    //stestback.setScale(1.25, 1.25);
       
 
 		//any event is triggered:
@@ -15,6 +25,7 @@
 				window.close();
 			if (event1.type == Event::KeyPressed && event1.key.code == Keyboard::Escape)
 				window.close();
+
 			
 			
 			 
@@ -30,6 +41,8 @@
 			mouse_pos_x = x;
 			mouse_pos_y = y;
 			
+			
+			
 			//condition is only triggered when clicked within the chess board:
 			if (x >= 0 && x <= 800 && y >= 0 && y <= 640) //if inside the board??
 			{
@@ -41,9 +54,9 @@
 				col_no = (x-Added_width)/ 80;
 				
 				clicked_piece = game_array[row_no][col_no];
-				cout<<" x : "<<x<<"   y : "<<y<<endl;
-				cout<<" row_no : "<<row_no<<"   col_no : "<<col_no<<endl;
-				cout<<"clicked piece : "<<clicked_piece<<endl;
+				//cout<<" x : "<<x<<"   y : "<<y<<endl;
+				//cout<<" row_no : "<<row_no<<"   col_no : "<<col_no<<endl;
+				//cout<<"clicked piece : "<<clicked_piece<<endl;
 				}
 				
 
@@ -57,8 +70,16 @@
 				
 				gameleftsidescreen(window, mouse_pos_x,mouse_pos_y);
 				gamerightsidescreen(window);
+				//window.draw(stestback);
 				movement1.show_captured_pieces(window);
+				move.loadFromFile("../resources/music/SoundChess1.wav");
+				move1.setBuffer(move);
+				move1.play();
+				//time = ayush.getElapsedTime();
+				//timer(time);
+				//timer_display(window);
 				window.display();
+
 			 return;
 			}
 			
@@ -69,6 +90,7 @@
 			
 			
 				window.clear();//reset everything by clering window to make different colour for possible moves:
+				time = ayush.getElapsedTime();
 				
 				c1.draw_baseboard(window,square);//making baseboard so that other color can fit above this baseboard.
 												 //This has initial color black and white.
@@ -142,9 +164,15 @@
 
 				c1.set_piece_to_board(window, game_array,square, tex, sp);
 				p1.promotion(window, game_array, square, row_no, col_no, clicked_piece,current_possible,current_side_to_play);
+				//window.draw(stestback);
 				gameleftsidescreen(window, mouse_pos_x,mouse_pos_y);
 				gamerightsidescreen(window);
 				movement1.show_captured_pieces(window);
+				click.loadFromFile("../resources/music/ClickChessa.wav");
+				click1.setBuffer(click);
+				click1.play();
+				
+				
 
 			    window.display();
 			//else part of "if clicked is on same square:"
@@ -162,7 +190,15 @@
 
 
 		}//MouseButtonPressed() function
+
+		
 	   }//window polled event1
+	   
+	   
+
+
+
+
    }//void forMouseClicked() function:
 
 
@@ -171,6 +207,8 @@ void EventHandler:: gameleftsidescreen(RenderWindow &window,int x, int y)
     
     Texture background1,menu2,bmenu2;
 	Sprite sbackground1,smenu2,sbmenu2;
+	Texture testback1;//to display pieces:
+	Sprite stestback1;
 	//background1.loadFromFile("../resources/menu/background2.jpg");
 	//background1.setSmooth("true");
 	
@@ -178,10 +216,14 @@ void EventHandler:: gameleftsidescreen(RenderWindow &window,int x, int y)
 	
 	//sp3.setScale(0.5, 0.5);
 	//sbackground1.setPosition(0,0);
-	menu2.loadFromFile("../resources/menu/menu.png");
+	testback1.loadFromFile("../resources/menu/testback.jpg",IntRect(0, 0, 160, 640));
+	testback1.setSmooth("true");
+	stestback1.setTexture(testback1);
+	window.draw(stestback1);
+	menu2.loadFromFile("../resources/menu/back.png");
 	menu2.setSmooth("true");
 	smenu2.setTexture(menu2);
-	smenu2.setScale(0.75, 0.75);
+	smenu2.setScale(1.00, 1.00);
 	smenu2.setPosition(4, 640-smenu2.getGlobalBounds().height-4);
     //bmenu2.loadFromFile("../resources/menu/menubig.png");
 	//bmenu2.setSmooth("true");
@@ -229,11 +271,24 @@ void EventHandler:: gamerightsidescreen(RenderWindow &window)
 	//rec1.setSize(Vector2f(160,160));
 	//rec1.setFillColor(Color::Yellow);
 	//rec1.setPosition(0,0);
-	rec2.setSize(Vector2f(160,160));
-	rec2.setFillColor(Color::Yellow);
-	rec2.setPosition(Added_width+640,480);
-	window.draw(sp);
-	window.draw(rec2);
+	rec2.setSize(Vector2f(160,640));
+	rec2.setFillColor(Color::Cyan);
+
+	rec2.setPosition(Added_width+640,0);
+	//window.draw(sp);
+	//window.draw(rec2);
+	Texture testback;
+	Sprite stestback;
+
+
+	testback.loadFromFile("../resources/menu/testback.jpg",IntRect(0,0, 160, 640));
+
+	testback.setSmooth("true");
+	stestback.setTexture(testback);
+	stestback.setPosition(800,0);
+	window.draw(stestback);
 
 }
+
+
 

@@ -2,8 +2,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include<vector>
+
+#include<sstream>
 
 #include "chessboard.h"
 #include "pawn.h"
@@ -32,6 +35,8 @@ extern int mouse_pos_y;
 
 extern int b_row,b_col,w_row,w_col;
 
+
+
 class EventHandler
 {
 	int current_side_to_play=0;//0 for white and 1 for black:
@@ -52,12 +57,20 @@ class EventHandler
 	vector<vector<int>> current_possible;//to store the information of all possible moves of particular piece:
 	
     Event event1;
+    SoundBuffer click,move;
+    Sound click1,move1;
 	 
 
 
 	
 		
 public:
+Clock ayush;
+    Time time;
+    stringstream ss;
+Font font;
+Text text;
+    
 
     
 	
@@ -67,6 +80,7 @@ public:
 
    void gameleftsidescreen(RenderWindow &window,int x, int y);
    void gamerightsidescreen(RenderWindow &window);
+   
 
    
     
