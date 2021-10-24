@@ -72,12 +72,8 @@ int H = 0;
 				gamerightsidescreen(window);
 				//window.draw(stestback);
 				movement1.show_captured_pieces(window);
-				move.loadFromFile("../resources/music/SoundChess1.wav");
-				move1.setBuffer(move);
-				move1.play();
-				//time = ayush.getElapsedTime();
-				//timer(time);
-				//timer_display(window);
+				moveplay();
+				
 				window.display();
 
 			 return;
@@ -90,7 +86,7 @@ int H = 0;
 			
 			
 				window.clear();//reset everything by clering window to make different colour for possible moves:
-				time = ayush.getElapsedTime();
+				
 				
 				c1.draw_baseboard(window,square);//making baseboard so that other color can fit above this baseboard.
 												 //This has initial color black and white.
@@ -168,9 +164,8 @@ int H = 0;
 				gameleftsidescreen(window, mouse_pos_x,mouse_pos_y);
 				gamerightsidescreen(window);
 				movement1.show_captured_pieces(window);
-				click.loadFromFile("../resources/music/ClickChessa.wav");
-				click1.setBuffer(click);
-				click1.play();
+				startmenu startmenu2;
+				startmenu2.clickplay();
 				
 				
 
@@ -185,11 +180,16 @@ int H = 0;
 
 			
 			
-			
 
 
 
 		}//MouseButtonPressed() function
+
+
+		
+
+		// window.display();
+			
 
 		
 	   }//window polled event1
@@ -205,17 +205,6 @@ int H = 0;
 void EventHandler:: gameleftsidescreen(RenderWindow &window,int x, int y)
 {
     
-    Texture background1,menu2,bmenu2;
-	Sprite sbackground1,smenu2,sbmenu2;
-	Texture testback1;//to display pieces:
-	Sprite stestback1;
-	//background1.loadFromFile("../resources/menu/background2.jpg");
-	//background1.setSmooth("true");
-	
-	//sbackground1.setTexture(background1);
-	
-	//sp3.setScale(0.5, 0.5);
-	//sbackground1.setPosition(0,0);
 	testback1.loadFromFile("../resources/menu/testback.jpg",IntRect(0, 0, 160, 640));
 	testback1.setSmooth("true");
 	stestback1.setTexture(testback1);
@@ -225,36 +214,40 @@ void EventHandler:: gameleftsidescreen(RenderWindow &window,int x, int y)
 	smenu2.setTexture(menu2);
 	smenu2.setScale(1.00, 1.00);
 	smenu2.setPosition(4, 640-smenu2.getGlobalBounds().height-4);
-    //bmenu2.loadFromFile("../resources/menu/menubig.png");
-	//bmenu2.setSmooth("true");
-	//sbmenu2.setTexture(bmenu2);
-	//sbmenu2.setScale(0.75,0.75);
-	//sbmenu2.setPosition(window.getSize().x - sbmenu2.getGlobalBounds().width, window.getSize().y - sbmenu2.getGlobalBounds().height);
+    bmenu2.loadFromFile("../resources/menu/bback.png");
+	bmenu2.setSmooth("true");
+	sbmenu2.setTexture(bmenu2);
+	sbmenu2.setScale(1.00,1.00);
+	sbmenu2.setPosition(4, 640-smenu2.getGlobalBounds().height-4);
     
-    if(smenu2.getGlobalBounds().contains(x,y))
-			{
-				
-				//startmenu startmenu2;
-				//startmenu2.mainmenu();
-			}
+    
     int mousepos_x = Mouse::getPosition(window).x;
 	int mousepos_y = Mouse::getPosition(window).y;
-    window.draw(sbackground1);
-    if (smenu2.getGlobalBounds().contains(mousepos_x,mousepos_y))
-    {
-        smenu2.setScale(0.9, 0.9);
-        window.draw(smenu2);
-		window.display();
-		window.close();
-		startmenu startmenu1;
-		startmenu1.mainmenu();
 
-    }
-    if (!smenu2.getGlobalBounds().contains(mousepos_x,mousepos_y))
-    {
+	if (smenu2.getGlobalBounds().contains(Mouse::getPosition(window).x,Mouse::getPosition(window).y))
+		{
+			window.draw(sbmenu2);
+			//window.display();
+			
+
+		}
+		if (!smenu2.getGlobalBounds().contains(Mouse::getPosition(window).x,Mouse::getPosition(window).y))
+        {
         
-        window.draw(smenu2);
-    }
+             window.draw(smenu2);
+			 //window.display();
+			 
+        }
+   
+	if (smenu2.getGlobalBounds().contains(mousepos_x,mousepos_y))
+	{
+			window.close();
+		    startmenu startmenu1;
+		    startmenu1.mainmenu();
+	}
+ 
+
+
 }
 
 
@@ -287,6 +280,19 @@ void EventHandler:: gamerightsidescreen(RenderWindow &window)
 	stestback.setTexture(testback);
 	stestback.setPosition(800,0);
 	window.draw(stestback);
+
+}
+
+
+void EventHandler::moveplay()
+{
+	if(is_sound==true)
+	{
+		move1.play();
+
+	}
+    
+	
 
 }
 

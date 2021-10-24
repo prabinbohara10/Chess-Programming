@@ -18,16 +18,21 @@
 using namespace std;
 using namespace sf;
 
+extern SoundBuffer click,hoover;
+extern Music menu_music;
+extern Sound click1,hoover1;
+
+extern bool is_sound,is_music ;
+
 extern vector<int> bcaptured_pieces;
 extern vector<int> wcaptured_pieces;
 
 class startmenu
 {
 private:
-    SoundBuffer click,hoover;
-	Music menu_music;
-	Sound click1,hoover1;
-	int hov=0;
+   
+	
+	int i=0,j=0,k=0,a=0,b=0,c=0,v=0,w=0,x=0,y=0,z=0;
 
 
 
@@ -49,6 +54,9 @@ public:
 	void setting();
 	void drawmode(RenderWindow& menu);//helps to draw icon in mode window
 	void drawsetting(RenderWindow& menu);//helps to draw icon in setting window
+
+	void clickplay();
+	void hoverplay();
 
 	
 };

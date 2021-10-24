@@ -15,8 +15,8 @@
 #include "queen.h"
 #include "king.h"
 #include "knight.h"
-#include"movement.h"
-#include"startmenu.h"
+#include "movement.h"
+#include "startmenu.h"
 
 using namespace sf;
 
@@ -34,6 +34,8 @@ extern int mouse_pos_x;
 extern int mouse_pos_y;
 
 extern int b_row,b_col,w_row,w_col;
+extern SoundBuffer click,hoover,move;
+extern Sound click1,hoover1,move1;
 
 
 
@@ -50,6 +52,7 @@ class EventHandler
 	queen q1;
 	king k1;
     
+    
 	movement movement1;
 	Texture tex;//to display pieces:
 	Sprite sp;
@@ -57,19 +60,17 @@ class EventHandler
 	vector<vector<int>> current_possible;//to store the information of all possible moves of particular piece:
 	
     Event event1;
-    SoundBuffer click,move;
-    Sound click1,move1;
-	 
+    
+	
+
+    Texture testback1,menu2,bmenu2;//to display back button:
+	Sprite stestback1,smenu2,sbmenu2;
 
 
 	
 		
 public:
-Clock ayush;
-    Time time;
-    stringstream ss;
-Font font;
-Text text;
+    
     
 
     
@@ -80,6 +81,7 @@ Text text;
 
    void gameleftsidescreen(RenderWindow &window,int x, int y);
    void gamerightsidescreen(RenderWindow &window);
+   void moveplay();
    
 
    

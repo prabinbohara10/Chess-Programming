@@ -22,11 +22,11 @@ void startmenu::mainmenu()
 	sbackground.setTexture(background);
 	
 	sbackground.setScale(0.5, 0.5);
-    menu1.loadFromFile("../resources/menu/mai.png");
-	menu1.setSmooth("true");
-	smenu1.setTexture(menu1);
-	smenu1.setPosition(640 / 2 - smenu1.getGlobalBounds().width/2, 20);
-    smenu1.setScale(1.25, 1.25);
+    // menu1.loadFromFile("../resources/menu/mai.png");
+	// menu1.setSmooth("true");
+	// smenu1.setTexture(menu1);
+	// smenu1.setPosition(640 / 2 - smenu1.getGlobalBounds().width/2, 20);
+    // smenu1.setScale(1.25, 1.25);
 	play.loadFromFile("../resources/menu/play.png");
 	play.setSmooth("true");
 	splay.setTexture(play);
@@ -59,23 +59,7 @@ void startmenu::mainmenu()
     sbexit.setScale(1.25, 1.25);
 
 
-	if (!click.loadFromFile("../resources/music/ClickChessa.wav"))
-	{
-		cout << "nosound"<<endl;
-	}
-	if (!hoover.loadFromFile("../resources/music/ClickChess.wav"))
-	{
-		cout << "nosound"<<endl;
-	}
-        
-        
-    
-	if(!menu_music.openFromFile("../resources/music/usicMain.ogg"))
-	{
-		cout<<"error opening music file"<<endl;
-	}
-	menu_music.play();
-	menu_music.setLoop(true);
+	
 	
 
 
@@ -105,7 +89,9 @@ void startmenu::mainmenu()
 				if (x >= 0 && x <= 640 && y >= 0 && y <= 400)
 				{
 				
+					
 					connection(x, y,menu);
+					//ishover = false;
 				}
 			}
 
@@ -139,53 +125,71 @@ void startmenu::draw(RenderWindow& menu)
 {
 	
 	menu.draw(sbackground);
-    menu.draw(smenu1);
+    //menu.draw(smenu1);
+	
     int mousepos_x = Mouse::getPosition(menu).x;
 	int mousepos_y= Mouse::getPosition(menu).y;
     if(splay.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
-        if(hov==0)
+        if(a==0)
 		{
-			hoover1.setBuffer(hoover);
-		    hoover1.play();
-		    
-			hov = 1;
+			hoverplay();
+			a=1;
 
 		}
 		menu.draw(sbplay);
+		
 		
 
     }
     if(!splay.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         menu.draw(splay);
-		hov = 0;
-
+		a=0;
+	
     }
     if(soption.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
-        //hoover1.setBuffer(hoover);
-		//hoover1.play();
+        if(b==0)
+		{
+			hoverplay();
+			b=1;
+
+		}
 		menu.draw(sboption);
+		
 
     }
     if(!soption.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         menu.draw(soption);
+		b=0;
+	
 
     }
     if(sexit.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
-        //hoover1.setBuffer(hoover);
-		//hoover1.play();
+        if(c==0)
+		{
+			hoverplay();
+			c=1;
+
+		}
 		menu.draw(sbexit);
+		
 
     }
     if(!sexit.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         menu.draw(sexit);
+		c=0;
+		
 
     }
+
+	
+
+	
 }
 //connect the main menu with mode or setting menu
 void startmenu::connection(int x, int y, RenderWindow& menu)
@@ -193,8 +197,8 @@ void startmenu::connection(int x, int y, RenderWindow& menu)
 	if (splay.getGlobalBounds().contains(x, y))
 	{
 		//cout << "play" << endl;
-		click1.setBuffer(click);
-		click1.play();
+		
+		clickplay();
 		
     
 		menu.close();
@@ -209,7 +213,7 @@ void startmenu::connection(int x, int y, RenderWindow& menu)
 		//cout << "play" << endl;
 		//click1.setBuffer(click);
 		//click1.play();
-		
+		clickplay();
     
 		menu.close();
 		setting();
@@ -220,6 +224,7 @@ void startmenu::connection(int x, int y, RenderWindow& menu)
 	}
     if (sexit.getGlobalBounds().contains(x, y))
 	{
+		clickplay();
 		//cout << "play" << endl;
 		//click1.setBuffer(click);
 		//click1.play();
@@ -317,12 +322,12 @@ void startmenu::mode_of_game()
 	back.loadFromFile("../resources/menu/back.png");
 	back.setSmooth("true");
 	sback.setTexture(back);
-	sback.setPosition(400 / 2 - sback.getGlobalBounds().width/2-20, 160);
+	sback.setPosition(500 / 2 - sback.getGlobalBounds().width/2-20, 190);
     sback.setScale(1.25, 1.25);
 	bback.loadFromFile("../resources/menu/bback.png");
 	bback.setSmooth("true");
 	sbback.setTexture(bback);
-	sbback.setPosition(400 / 2 - sbback.getGlobalBounds().width/2-20, 160);
+	sbback.setPosition(500 / 2 - sbback.getGlobalBounds().width/2-20, 190);
     sbback.setScale(1.25, 1.25);
 
 
@@ -331,11 +336,23 @@ void startmenu::mode_of_game()
 	soffline.setTexture(offline);
 	soffline.setPosition(30, 100);
     soffline.setScale(1.1, 1.1);
+	boffline.loadFromFile("../resources/menu/boffline.png");
+	boffline.setSmooth("true");
+	sboffline.setTexture(boffline);
+	sboffline.setPosition(30, 100);
+    sboffline.setScale(1.1, 1.1);
+
+
 	online.loadFromFile("../resources/menu/online.png");
 	online.setSmooth("true");
 	sonline.setTexture(online);
 	sonline.setPosition(270, 100);
     sonline.setScale(1.1, 1.1);
+	bonline.loadFromFile("../resources/menu/bonline.png");
+	bonline.setSmooth("true");
+	sbonline.setTexture(bonline);
+	sbonline.setPosition(270, 100);
+    sbonline.setScale(1.1, 1.1);
 
 	while (window_mode.isOpen()) {
 		
@@ -360,7 +377,8 @@ void startmenu::mode_of_game()
 		               //click1.setBuffer(click);
 		               //click1.play();
 
-		               window_mode.close();
+					   clickplay();
+					   window_mode.close();
 		               mainmenu();
     
 		
@@ -371,7 +389,19 @@ void startmenu::mode_of_game()
 	                {
 
 		               
-		               window_mode.close();
+		               clickplay();
+					   window_mode.close();
+		               main_game();
+    
+		
+        
+	                }
+					if (soffline.getGlobalBounds().contains(a, b))
+	                {
+
+		               
+		               clickplay();
+					   window_mode.close();
 		               main_game();
     
 		
@@ -386,8 +416,8 @@ void startmenu::mode_of_game()
 		//menu.display();
 		window_mode.clear();
 		drawmode(window_mode);
-		window_mode.draw(soffline);
-		window_mode.draw(sonline);
+		// window_mode.draw(soffline);
+		// window_mode.draw(sonline);
 		window_mode.display();
 
 		
@@ -399,30 +429,71 @@ void startmenu::mode_of_game()
 //helps to draw icon in mode window
 void startmenu::drawmode(RenderWindow& menu)
 {
-	sbackground.setScale(0.8,0.8);
+	sbackground.setScale(0.4,0.4);
 	menu.draw(sbackground);
     
     int mousepos_x = Mouse::getPosition(menu).x;
 	int mousepos_y= Mouse::getPosition(menu).y;
     if(sback.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
-        // if(hov==0)
-		// {
-		// 	hoover1.setBuffer(hoover);
-		//     hoover1.play();
-		    
-		// 	hov = 1;
+    
+        if(i==0)
+		{
+			hoverplay();
+			i=1;
 
-		// }
+		}
+		
 		menu.draw(sbback);
 		
 
     }
     if(!sback.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
-        menu.draw(sback);
-		//hov = 0;
+        
+		
+		menu.draw(sback);
+		
+		i= 0;
+    }
 
+	if(soffline.getGlobalBounds().contains(mousepos_x,mousepos_y))
+    {
+        
+		if(j==0)
+		{
+			hoverplay();
+			j=1;
+
+		}
+		menu.draw(sboffline);
+		
+
+    }
+    if(!soffline.getGlobalBounds().contains(mousepos_x,mousepos_y))
+    {
+        menu.draw(soffline);
+		j=0;
+		
+    }
+	if(sonline.getGlobalBounds().contains(mousepos_x,mousepos_y))
+    {
+        
+		if(k==0)
+		{
+			hoverplay();
+			k=1;
+
+		}
+		menu.draw(sbonline);
+		
+
+    }
+    if(!sonline.getGlobalBounds().contains(mousepos_x,mousepos_y))
+    {
+        menu.draw(sonline);
+		k=0;
+		
     }
 }
 
@@ -504,6 +575,7 @@ void startmenu::setting()
 				if (a >= 0 && a <= 600 && b >= 0 && b <= 400)
 				{
 				
+					
 					if (sback1.getGlobalBounds().contains(a, b))
 	                {
 
@@ -511,12 +583,46 @@ void startmenu::setting()
 		               //click1.setBuffer(click);
 		               //click1.play();
 
-		               window_setting.close();
+		               clickplay();
+					   window_setting.close();
 		               mainmenu();
     
 		
         
 	                }
+
+					if (ssoundon.getGlobalBounds().contains(a, b))
+	                {
+
+		              
+					   clickplay();//window_setting.close();
+		               //mainmenu();
+					   is_sound = true;
+        
+	                }
+					if (ssoundoff.getGlobalBounds().contains(a, b))
+	                {
+
+                       clickplay();
+					   is_sound = false;
+        
+	                }
+					if (sbmusicon.getGlobalBounds().contains(a, b))
+	                {
+
+		               clickplay();
+					   menu_music.play();
+        
+	                }
+					if (sbmusicoff.getGlobalBounds().contains(a, b))
+	                {
+
+		             
+					   clickplay();
+					   menu_music.pause();
+        
+	                }
+					
 				}
 			}
 
@@ -540,14 +646,13 @@ void startmenu::drawsetting(RenderWindow& menu)
 	int mousepos_y= Mouse::getPosition(menu).y;
     if(sback1.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
-        // if(hov==0)
-		// {
-		// 	hoover1.setBuffer(hoover);
-		//     hoover1.play();
-		     
-		// 	hov = 1;
+        
+		if(x==0)
+		{
+			hoverplay();
+			x=1;
 
-		// }
+		}
 		menu.draw(sbback1);
 		
 
@@ -555,12 +660,18 @@ void startmenu::drawsetting(RenderWindow& menu)
     if(!sback1.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         menu.draw(sback1);
-		//hov = 0;
+		x=0;
 
     }
 	 if(ssoundon.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         
+		if(y==0)
+		{
+			hoverplay();
+			y=1;
+
+		}
 		menu.draw(sbsoundon);
 		
 
@@ -568,12 +679,19 @@ void startmenu::drawsetting(RenderWindow& menu)
     if(!ssoundon.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         menu.draw(ssoundon);
+		y=0;
 		
 
     }
 	if(ssoundoff.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         
+		if(z==0)
+		{
+			hoverplay();
+			z=1;
+
+		}
 		menu.draw(sbsoundoff);
 		
 
@@ -581,12 +699,19 @@ void startmenu::drawsetting(RenderWindow& menu)
     if(!ssoundoff.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         menu.draw(ssoundoff);
+		z=0;
 		
 
     }
 	if(sbmusicon.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         
+		if(v==0)
+		{
+			hoverplay();
+			v=1;
+
+		}
 		menu.draw(sbbmusicon);
 		
 
@@ -594,12 +719,18 @@ void startmenu::drawsetting(RenderWindow& menu)
     if(!sbmusicon.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         menu.draw(sbmusicon);
+		v=0;
 		
 
     }
     if(sbmusicoff.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
-        
+        if(w==0)
+		{
+			hoverplay();
+			w=1;
+
+		}
 		menu.draw(sbbmusicoff);
 		
 
@@ -607,10 +738,34 @@ void startmenu::drawsetting(RenderWindow& menu)
     if(!sbmusicoff.getGlobalBounds().contains(mousepos_x,mousepos_y))
     {
         menu.draw(sbmusicoff);
+		w=0;
 		
 
     }
 
 
 
+}
+
+void startmenu::clickplay()
+{
+	if(is_sound == true)
+	{
+		click1.play();
+
+	}
+	
+}
+
+
+void startmenu::hoverplay()
+{
+	 if(is_sound == true)
+	{
+			
+		hoover1.play();
+		    
+		
+
+	}
 }
